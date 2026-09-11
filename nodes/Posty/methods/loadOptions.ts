@@ -1,7 +1,11 @@
-import type { ILoadOptionsFunctions, INodePropertyOptions } from "n8n-workflow";
+import type {
+  IDataObject,
+  ILoadOptionsFunctions,
+  INodePropertyOptions,
+} from "n8n-workflow";
 
 import { PROVIDER_LABELS } from "../shared/constants";
-import { postyApiRequestAllPages } from "../shared/transport";
+import { postyApiRequest, postyApiRequestAllPages } from "../shared/transport";
 
 interface ChannelSummary {
   id: string;
@@ -11,12 +15,47 @@ interface ChannelSummary {
   accountLabel: string | null;
 }
 
+interface WorkspaceSummary {
+  id: string;
+  name?: string;
+  permissions: string[];
+}
+
+/**
+ * The workspace chosen on the node, when there is one. A token scoped to a
+ * single workspace leaves this empty and the API supplies the workspace.
+ */
+function selectedWorkspace(context: ILoadOptionsFunctions): IDataObject {
+  const value = context.getCurrentNodeParameter("workspaceId");
+  return typeof value === "string" && value !== ""
+    ? { workspaceId: value }
+    : {};
+}
+
+export async function getWorkspaces(
+  this: ILoadOptionsFunctions
+): Promise<INodePropertyOptions[]> {
+  const response = (await postyApiRequest.call(
+    this,
+    "GET",
+    "/v1/workspaces"
+  )) as unknown as { workspaces: WorkspaceSummary[] };
+
+  return response.workspaces
+    .map((workspace) => ({
+      name: workspace.name ?? workspace.id,
+      value: workspace.id,
+    }))
+    .sort((a, b) => a.name.localeCompare(b.name));
+}
+
 export async function getChannels(
   this: ILoadOptionsFunctions
 ): Promise<INodePropertyOptions[]> {
   const channels = (await postyApiRequestAllPages.call(
     this,
-    "/v1/channels"
+    "/v1/channels",
+    selectedWorkspace(this)
   )) as ChannelSummary[];
 
   return channels

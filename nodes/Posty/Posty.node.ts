@@ -4,13 +4,14 @@ import {
   type INodeTypeDescription,
 } from "n8n-workflow";
 
-import { getChannels } from "./methods/loadOptions";
+import { getChannels, getWorkspaces } from "./methods/loadOptions";
 import { channelDescription } from "./resources/channel";
 import { commentDescription } from "./resources/comment";
 import { mediaDescription } from "./resources/media";
 import { postDescription } from "./resources/post";
 import { postContentDescription } from "./resources/postContent";
 import { workspaceDescription } from "./resources/workspace";
+import { workspaceIdProperty } from "./shared/workspace";
 
 export class Posty implements INodeType {
   description: INodeTypeDescription = {
@@ -52,6 +53,7 @@ export class Posty implements INodeType {
         ],
         default: "post",
       },
+      workspaceIdProperty,
       ...channelDescription,
       ...commentDescription,
       ...mediaDescription,
@@ -64,6 +66,7 @@ export class Posty implements INodeType {
   methods = {
     loadOptions: {
       getChannels,
+      getWorkspaces,
     },
   };
 }

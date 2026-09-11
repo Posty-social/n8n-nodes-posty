@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.2.0
+
+- **Workspace field** on every resource except Workspace. A Posty API token scoped to a whole team has to name the workspace it is acting on, and this field supplies it, loaded from the workspaces the token can reach. A token scoped to one workspace leaves it empty.
+- The channel picker now loads channels from the selected workspace.
+
 ## 0.1.0
 
 First release.

@@ -2,6 +2,7 @@ import type {
 	IAuthenticateGeneric,
 	ICredentialTestRequest,
 	ICredentialType,
+	Icon,
 	INodeProperties,
 } from 'n8n-workflow';
 
@@ -10,8 +11,9 @@ export class PostyApi implements ICredentialType {
 
 	displayName = 'Posty API';
 
-	// Link to your community node's README
-	documentationUrl = 'https://github.com/org/-posty?tab=readme-ov-file#credentials';
+	documentationUrl = 'https://github.com/Posty-social/n8n-nodes-posty?tab=readme-ov-file#credentials';
+
+	icon: Icon = { light: 'file:../nodes/Posty/posty.svg', dark: 'file:../nodes/Posty/posty.dark.svg' };
 
 	properties: INodeProperties[] = [
 		{
@@ -21,6 +23,16 @@ export class PostyApi implements ICredentialType {
 			typeOptions: { password: true },
 			required: true,
 			default: '',
+			placeholder: 'pk_live_...',
+			description:
+				'Workspace-scoped API key created in your Posty workspace settings. All requests act on that workspace.',
+		},
+		{
+			displayName: 'Base URL',
+			name: 'baseUrl',
+			type: 'string',
+			default: 'https://api.posty.social',
+			description: 'Only change this when pointing at a non-production Posty API',
 		},
 	];
 
@@ -28,15 +40,16 @@ export class PostyApi implements ICredentialType {
 		type: 'generic',
 		properties: {
 			headers: {
-				'x-api-key': '={{$credentials.apiKey}}',
+				Authorization: '=Bearer {{$credentials.apiKey}}',
 			},
 		},
 	};
 
 	test: ICredentialTestRequest = {
 		request: {
-			baseURL: 'https://api.posty.social/v1',
-			url: '/v1/user',
+			baseURL: '={{ ($credentials.baseUrl || "https://api.posty.social").replace(/[/]+$/, "") }}',
+			url: '/v1/workspaces',
+			method: 'GET',
 		},
 	};
 }

@@ -1,16 +1,21 @@
 import { NodeConnectionTypes, type INodeType, type INodeTypeDescription } from 'n8n-workflow';
-import { userDescription } from './resources/user';
-import { companyDescription } from './resources/company';
+import { getChannels } from './methods/loadOptions';
+import { channelDescription } from './resources/channel';
+import { commentDescription } from './resources/comment';
+import { mediaDescription } from './resources/media';
+import { postDescription } from './resources/post';
+import { postContentDescription } from './resources/postContent';
+import { workspaceDescription } from './resources/workspace';
 
 export class Posty implements INodeType {
 	description: INodeTypeDescription = {
 		displayName: 'Posty',
 		name: 'posty',
 		icon: { light: 'file:posty.svg', dark: 'file:posty.dark.svg' },
-		group: ['transform'],
+		group: ['output'],
 		version: 1,
 		subtitle: '={{$parameter["operation"] + ": " + $parameter["resource"]}}',
-		description: 'Interact with the Posty API',
+		description: 'Schedule and publish social media posts with Posty',
 		defaults: {
 			name: 'Posty',
 		},
@@ -19,7 +24,7 @@ export class Posty implements INodeType {
 		outputs: [NodeConnectionTypes.Main],
 		credentials: [{ name: 'postyApi', required: true }],
 		requestDefaults: {
-			baseURL: 'https://api.posty.social/v1',
+			baseURL: '={{ ($credentials.baseUrl || "https://api.posty.social").replace(/[/]+$/, "") }}',
 			headers: {
 				Accept: 'application/json',
 				'Content-Type': 'application/json',
@@ -32,19 +37,27 @@ export class Posty implements INodeType {
 				type: 'options',
 				noDataExpression: true,
 				options: [
-					{
-						name: 'User',
-						value: 'user',
-					},
-					{
-						name: 'Company',
-						value: 'company',
-					},
+					{ name: 'Channel', value: 'channel' },
+					{ name: 'Comment', value: 'comment' },
+					{ name: 'Media', value: 'media' },
+					{ name: 'Post', value: 'post' },
+					{ name: 'Post Content', value: 'postContent' },
+					{ name: 'Workspace', value: 'workspace' },
 				],
-				default: 'user',
+				default: 'post',
 			},
-			...userDescription,
-			...companyDescription,
+			...channelDescription,
+			...commentDescription,
+			...mediaDescription,
+			...postDescription,
+			...postContentDescription,
+			...workspaceDescription,
 		],
+	};
+
+	methods = {
+		loadOptions: {
+			getChannels,
+		},
 	};
 }

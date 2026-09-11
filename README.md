@@ -1,8 +1,8 @@
 # n8n-nodes-posty
 
-This is an n8n community node. It lets you use _app/service name_ in your n8n workflows.
+This is an n8n community node. It lets you use [Posty](https://posty.social) in your n8n workflows.
 
-_App/service name_ is _one or two sentences describing the service this node integrates with_.
+Posty is a social media scheduling and approval tool. It publishes to Bluesky, Discord, Facebook, Instagram, LinkedIn, Pinterest, Threads, TikTok and YouTube, with a review process, a shared media library and per-channel content.
 
 [n8n](https://n8n.io/) is a [fair-code licensed](https://docs.n8n.io/sustainable-use-license/) workflow automation platform.
 
@@ -20,28 +20,123 @@ Follow the [installation guide](https://docs.n8n.io/integrations/community-nodes
 
 ## Operations
 
-_List the operations supported by your node._
+### Post
+
+A post is the shell: a schedule, an approval mode and a status. It holds one content row per channel it targets.
+
+| Operation | What it does |
+| --- | --- |
+| Create | Creates a post with content for one or more channels |
+| Get | Returns a post with its per-channel content and delivery state |
+| Get Many | Lists posts, with status, channel and date filters |
+| Update | Changes the schedule, approval mode or status |
+| Delete | Deletes the post |
+| Submit for Approval | Moves a draft into the review process |
+| Approve | Approves the current review stage |
+| Request Changes | Sends the post back to draft with feedback |
+| Publish | Publishes now, or locks the post in for its scheduled time |
+| Retry Failed Deliveries | Re-queues the channels whose delivery failed |
+| Get History | Returns the revisions, approvals and events recorded for the post |
+
+### Post Content
+
+The per-channel body, platform settings and attachments on an existing post.
+
+| Operation | What it does |
+| --- | --- |
+| Update | Changes the text or platform settings for one channel |
+| Set Media | Replaces the media attached to one channel, in order |
+| Remove | Drops one channel from the post |
+
+### Media
+
+| Operation | What it does |
+| --- | --- |
+| Upload | Uploads a binary file from the input item and waits until it is ready |
+| Get | Returns a media item with its status and download URLs |
+| Get Many | Lists the workspace media library |
+| Delete | Deletes a media item and its stored files |
+| Create Upload URL | Reserves a media item and returns a presigned upload URL |
+| Complete Upload | Tells Posty the file has been uploaded so processing can start |
+
+Use **Upload** for the normal case. It runs all three steps in one operation. **Create Upload URL** and **Complete Upload** expose the individual steps for workflows that move the bytes themselves.
+
+### Channel
+
+| Operation | What it does |
+| --- | --- |
+| Get | Returns one connected social channel |
+| Get Many | Lists connected channels, filterable by platform and connection status |
+
+### Comment
+
+| Operation | What it does |
+| --- | --- |
+| Create | Adds a comment, optionally flagged as a change request |
+| Get Many | Lists the comments on a post |
+| Delete | Deletes a comment |
+
+### Workspace
+
+| Operation | What it does |
+| --- | --- |
+| Get Many | Lists the workspaces the API key can reach, with their permissions |
 
 ## Credentials
 
-_If users need to authenticate with the app/service, provide details here. You should include prerequisites (such as signing up with the service), available authentication methods, and how to set them up._
+Posty authenticates with a workspace-scoped API key.
+
+1. Open your Posty workspace settings and create an API key. It looks like `pk_live_...`.
+2. In n8n, create a **Posty API** credential and paste the key.
+3. Leave **Base URL** at `https://api.posty.social` unless you are pointing at a non-production Posty.
+
+The key is sent as `Authorization: Bearer <key>`. It is scoped to one workspace, so every operation acts on that workspace. API keys require a plan that includes programmatic access.
 
 ## Compatibility
 
-_State the minimum n8n version, as well as which versions you test against. You can also include any known version incompatibility issues._
+Built and tested against n8n 1.x with `n8n-workflow` 2.x. It targets version 1 of the Posty API and has no known version incompatibilities.
 
 ## Usage
 
-_This is an optional section. Use it to help users with any difficult or confusing aspects of the node._
+### Creating a post
 
-_By the time users are looking for community nodes, they probably already know n8n basics. But if you expect new users, you can link to the [Try it out](https://docs.n8n.io/try-it-out/) documentation to help them get started._
+Add one entry under **Content** per channel. Pick the channel from the list, which loads the connected channels in your workspace. Each entry takes:
+
+- **Body**: the text for that channel.
+- **Media IDs**: comma-separated IDs from the media library. The media must have status `ready`.
+- **Metadata**: platform-specific settings as a flat JSON object.
+
+Leave **Scheduled At** empty to create a draft. Set it to schedule the post.
+
+### Metadata
+
+Metadata is a flat JSON object of platform settings. The keys differ per platform, for example `boardId`, `title`, `link` and `altText` on Pinterest, or `privacyStatus`, `categoryId`, `tags` and `madeForKids` on YouTube. Values may be strings, numbers, booleans or arrays of strings. See the [Posty API reference](https://docs.posty.social) for the keys each platform accepts.
+
+### Attaching media
+
+Upload the file first, then reference it:
+
+1. **Media → Upload** with the binary field from a previous node. It returns the media record once processing finishes.
+2. **Post → Create**, putting `{{ $json.id }}` in the **Media IDs** field of the right content entry.
+
+To change the attachments on a post that already exists, use **Post Content → Set Media**. It replaces the whole list, so include every media ID you want to keep.
+
+### Approval flow
+
+Posts created with an approval mode of `optional`, `required` or `multi_level` go through review. The flow is **Submit for Approval**, then **Approve** or **Request Changes**, then **Publish**. The same permissions and readiness checks as the Posty app apply, so an operation can fail if the API key lacks the permission or the post is not ready.
+
+### Pagination
+
+Every list operation has **Return All**. Leave it off and set **Limit** to cap the results, or turn it on to walk every page.
 
 ## Resources
 
 * [n8n community nodes documentation](https://docs.n8n.io/integrations/#community-nodes)
-* _Link to app/service documentation._
+* [Posty](https://posty.social)
+* [Posty API reference](https://docs.posty.social)
 
 ## Version history
 
-_This is another optional section. If your node has multiple versions, include a short description of available versions and what changed, as well as any compatibility impact._
-# n8n-nodes-posty
+### 0.1.0
+
+First release. Covers posts, per-channel post content, media, channels, comments and workspaces.

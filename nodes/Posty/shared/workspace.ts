@@ -3,8 +3,8 @@ import type { INodeProperties } from "n8n-workflow";
 /**
  * The workspace a request acts on.
  *
- * A token scoped to one workspace does not need this: the API already knows
- * which workspace it is for, and naming a different one is refused. A token
+ * A key scoped to one workspace does not need this: the API already knows
+ * which workspace it is for, and naming a different one is refused. A key
  * scoped to the whole team has to be told, on every request.
  */
 export const workspaceIdProperty: INodeProperties = {
@@ -14,7 +14,7 @@ export const workspaceIdProperty: INodeProperties = {
   typeOptions: { loadOptionsMethod: "getWorkspaces" },
   default: "",
   description:
-    'Leave empty when the API token is scoped to a single workspace. Choose from the list, or specify an ID using an <a href="https://docs.n8n.io/code/expressions/">expression</a>.',
+    'Leave empty when the API key is scoped to a single workspace. Choose from the list, or specify an ID using an <a href="https://docs.n8n.io/code/expressions/">expression</a>.',
   displayOptions: {
     hide: { resource: ["workspace"] },
   },

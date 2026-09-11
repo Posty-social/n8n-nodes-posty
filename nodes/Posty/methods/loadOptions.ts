@@ -22,7 +22,7 @@ interface WorkspaceSummary {
 }
 
 /**
- * The workspace chosen on the node, when there is one. A token scoped to a
+ * The workspace chosen on the node, when there is one. A key scoped to a
  * single workspace leaves this empty and the API supplies the workspace.
  */
 function selectedWorkspace(context: ILoadOptionsFunctions): IDataObject {

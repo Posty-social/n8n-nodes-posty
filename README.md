@@ -84,21 +84,21 @@ Use **Upload** for the normal case. It runs all three steps in one operation. **
 
 ## Credentials
 
-Posty authenticates with an API token.
+Posty authenticates with an API key.
 
-1. In Posty, open **API tokens** in the team sidebar and create a token. It looks like `pk_live_...`. Only team owners and admins can create one.
-2. Choose what the token can reach: a single workspace, or every workspace in the team.
-3. In n8n, create a **Posty API** credential and paste the token.
+1. In Posty, open **API keys** in the team sidebar and create a key. It looks like `pk_live_...`. Only team owners and admins can create one.
+2. Choose what the key can reach: a single workspace, or every workspace in the team.
+3. In n8n, create a **Posty API** credential and paste the key.
 4. Leave **Base URL** at `https://api.posty.social` unless you are pointing at a non-production Posty.
 
-The token is sent as `Authorization: Bearer <token>`. API tokens require a plan that includes programmatic access.
+The key is sent as `Authorization: Bearer <key>`. API keys require a plan that includes programmatic access.
 
 ### Choosing a workspace
 
 Every operation except **Workspace → Get Many** has a **Workspace** field.
 
-- A token scoped to **one workspace** does not need it. Leave it empty and the API uses the token's own workspace. Naming a different workspace is refused.
-- A token scoped to **every workspace** must have it set on every request, because the token alone does not say which workspace you mean. Pick one from the list, which is loaded from the workspaces the token can reach.
+- A key scoped to **one workspace** does not need it. Leave it empty and the API uses the key's own workspace. Naming a different workspace is refused.
+- A key scoped to **every workspace** must have it set on every request, because the key alone does not say which workspace you mean. Pick one from the list, which is loaded from the workspaces the key can reach.
 
 The channel picker follows the same choice, so set the workspace first and the list will show that workspace's channels.
 
@@ -149,7 +149,7 @@ Every list operation has **Return All**. Leave it off and set **Limit** to cap t
 
 ### 0.2.0
 
-Adds the **Workspace** field, so one credential can drive every workspace in a team when the token is scoped that way. The channel picker and every request now follow that choice.
+Adds the **Workspace** field, so one credential can drive every workspace in a team when the key is scoped that way. The channel picker and every request now follow that choice.
 
 ### 0.1.0
 

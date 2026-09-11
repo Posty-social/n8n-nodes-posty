@@ -1,6 +1,7 @@
-import type { INodeProperties } from 'n8n-workflow';
-import { cursorPaginationProperties } from '../../shared/pagination';
+import type { INodeProperties } from "n8n-workflow";
+
+import { cursorPaginationProperties } from "../../shared/pagination";
 
 export const commentGetAllDescription: INodeProperties[] = [
-	...cursorPaginationProperties('comment', 'getAll'),
+  ...cursorPaginationProperties("comment", "getAll"),
 ];

@@ -24,63 +24,63 @@ Follow the [installation guide](https://docs.n8n.io/integrations/community-nodes
 
 A post is the shell: a schedule, an approval mode and a status. It holds one content row per channel it targets.
 
-| Operation | What it does |
-| --- | --- |
-| Create | Creates a post with content for one or more channels |
-| Get | Returns a post with its per-channel content and delivery state |
-| Get Many | Lists posts, with status, channel and date filters |
-| Update | Changes the schedule, approval mode or status |
-| Delete | Deletes the post |
-| Submit for Approval | Moves a draft into the review process |
-| Approve | Approves the current review stage |
-| Request Changes | Sends the post back to draft with feedback |
-| Publish | Publishes now, or locks the post in for its scheduled time |
-| Retry Failed Deliveries | Re-queues the channels whose delivery failed |
-| Get History | Returns the revisions, approvals and events recorded for the post |
+| Operation               | What it does                                                      |
+| ----------------------- | ----------------------------------------------------------------- |
+| Create                  | Creates a post with content for one or more channels              |
+| Get                     | Returns a post with its per-channel content and delivery state    |
+| Get Many                | Lists posts, with status, channel and date filters                |
+| Update                  | Changes the schedule, approval mode or status                     |
+| Delete                  | Deletes the post                                                  |
+| Submit for Approval     | Moves a draft into the review process                             |
+| Approve                 | Approves the current review stage                                 |
+| Request Changes         | Sends the post back to draft with feedback                        |
+| Publish                 | Publishes now, or locks the post in for its scheduled time        |
+| Retry Failed Deliveries | Re-queues the channels whose delivery failed                      |
+| Get History             | Returns the revisions, approvals and events recorded for the post |
 
 ### Post Content
 
 The per-channel body, platform settings and attachments on an existing post.
 
-| Operation | What it does |
-| --- | --- |
-| Update | Changes the text or platform settings for one channel |
-| Set Media | Replaces the media attached to one channel, in order |
-| Remove | Drops one channel from the post |
+| Operation | What it does                                          |
+| --------- | ----------------------------------------------------- |
+| Update    | Changes the text or platform settings for one channel |
+| Set Media | Replaces the media attached to one channel, in order  |
+| Remove    | Drops one channel from the post                       |
 
 ### Media
 
-| Operation | What it does |
-| --- | --- |
-| Upload | Uploads a binary file from the input item and waits until it is ready |
-| Get | Returns a media item with its status and download URLs |
-| Get Many | Lists the workspace media library |
-| Delete | Deletes a media item and its stored files |
-| Create Upload URL | Reserves a media item and returns a presigned upload URL |
-| Complete Upload | Tells Posty the file has been uploaded so processing can start |
+| Operation         | What it does                                                          |
+| ----------------- | --------------------------------------------------------------------- |
+| Upload            | Uploads a binary file from the input item and waits until it is ready |
+| Get               | Returns a media item with its status and download URLs                |
+| Get Many          | Lists the workspace media library                                     |
+| Delete            | Deletes a media item and its stored files                             |
+| Create Upload URL | Reserves a media item and returns a presigned upload URL              |
+| Complete Upload   | Tells Posty the file has been uploaded so processing can start        |
 
 Use **Upload** for the normal case. It runs all three steps in one operation. **Create Upload URL** and **Complete Upload** expose the individual steps for workflows that move the bytes themselves.
 
 ### Channel
 
-| Operation | What it does |
-| --- | --- |
-| Get | Returns one connected social channel |
-| Get Many | Lists connected channels, filterable by platform and connection status |
+| Operation | What it does                                                           |
+| --------- | ---------------------------------------------------------------------- |
+| Get       | Returns one connected social channel                                   |
+| Get Many  | Lists connected channels, filterable by platform and connection status |
 
 ### Comment
 
-| Operation | What it does |
-| --- | --- |
-| Create | Adds a comment, optionally flagged as a change request |
-| Get Many | Lists the comments on a post |
-| Delete | Deletes a comment |
+| Operation | What it does                                           |
+| --------- | ------------------------------------------------------ |
+| Create    | Adds a comment, optionally flagged as a change request |
+| Get Many  | Lists the comments on a post                           |
+| Delete    | Deletes a comment                                      |
 
 ### Workspace
 
-| Operation | What it does |
-| --- | --- |
-| Get Many | Lists the workspaces the API key can reach, with their permissions |
+| Operation | What it does                                                       |
+| --------- | ------------------------------------------------------------------ |
+| Get Many  | Lists the workspaces the API key can reach, with their permissions |
 
 ## Credentials
 
@@ -131,9 +131,9 @@ Every list operation has **Return All**. Leave it off and set **Limit** to cap t
 
 ## Resources
 
-* [n8n community nodes documentation](https://docs.n8n.io/integrations/#community-nodes)
-* [Posty](https://posty.social)
-* [Posty API reference](https://docs.posty.social)
+- [n8n community nodes documentation](https://docs.n8n.io/integrations/#community-nodes)
+- [Posty](https://posty.social)
+- [Posty API reference](https://docs.posty.social)
 
 ## Version history
 

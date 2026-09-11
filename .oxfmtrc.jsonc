@@ -1,0 +1,34 @@
+// Formatter config. Kept byte-compatible with the posty.social repo so code
+// moves between the two without a reformat diff.
+// https://oxc.rs/docs/guide/usage/formatter/config-file-reference.html
+{
+  "$schema": "./node_modules/oxfmt/configuration_schema.json",
+  "printWidth": 80,
+  "tabWidth": 2,
+  "useTabs": false,
+  "semi": true,
+  "singleQuote": false,
+  "quoteProps": "as-needed",
+  "trailingComma": "es5",
+  "bracketSpacing": true,
+  "bracketSameLine": false,
+  "arrowParens": "always",
+  "endOfLine": "lf",
+  "ignorePatterns": [
+    "dist/**",
+    "package-lock.json",
+    // n8n's strict mode byte-compares this file against its own template,
+    // so it must stay exactly as the CLI generated it.
+    "eslint.config.mjs",
+    // Vendored from the n8n CLI template; kept as-is so re-syncs stay a
+    // clean diff.
+    ".agents/**",
+    "AGENTS.md",
+  ],
+  "experimentalSortPackageJson": true,
+  "experimentalSortImports": {
+    "ignoreCase": true,
+    "newlinesBetween": true,
+    "order": "asc",
+  },
+}

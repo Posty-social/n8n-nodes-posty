@@ -1,0 +1,90 @@
+{
+  "$schema": "./node_modules/oxlint/configuration_schema.json",
+  "plugins": ["typescript", "unicorn", "import", "promise", "oxc", "node"],
+  "categories": {
+    "correctness": "error",
+    "suspicious": "error",
+    "perf": "error"
+  },
+  "env": {
+    "es2022": true,
+    "node": true
+  },
+  "rules": {
+    // n8n binds `this` on the exported routing hooks (preSend, postReceive)
+    // and loadOptions methods, so the rule fires on every one of them.
+    "oxc/no-this-in-exported-function": "allow",
+    // Cursor pagination and status polling are sequential by definition.
+    "eslint/no-await-in-loop": "allow",
+    // `toSorted` needs a newer lib target than this package compiles against.
+    "unicorn/no-array-sort": "allow",
+    "eslint/no-console": "error",
+    "eslint/no-debugger": "error",
+    "eslint/no-eval": "error",
+    "eslint/no-alert": "error",
+    "eslint/no-var": "error",
+    "eslint/prefer-const": "error",
+    "eslint/eqeqeq": "error",
+    "eslint/no-throw-literal": "error",
+    "eslint/no-return-assign": "error",
+    "eslint/no-self-compare": "error",
+    "eslint/no-template-curly-in-string": "error",
+    "eslint/no-unmodified-loop-condition": "error",
+    "eslint/no-promise-executor-return": "error",
+    "eslint/require-atomic-updates": "error",
+    "eslint/prefer-promise-reject-errors": "error",
+    "eslint/no-else-return": "error",
+    "eslint/no-lonely-if": "error",
+    "eslint/prefer-object-spread": "error",
+    "eslint/symbol-description": "error",
+    "typescript/consistent-type-imports": "error",
+    "typescript/no-explicit-any": "error",
+    "typescript/no-non-null-asserted-optional-chain": "error",
+    "typescript/no-non-null-asserted-nullish-coalescing": "error",
+    "typescript/no-confusing-non-null-assertion": "error",
+    "typescript/no-meaningless-void-operator": "error",
+    "typescript/no-unnecessary-type-constraint": "error",
+    "typescript/prefer-literal-enum-member": "error",
+    "typescript/no-import-type-side-effects": "error",
+    "unicorn/catch-error-name": [
+      "error",
+      {
+        "ignore": ["cause"]
+      }
+    ],
+    "unicorn/error-message": "error",
+    "unicorn/prefer-node-protocol": "error",
+    "unicorn/no-useless-promise-resolve-reject": "error",
+    "unicorn/throw-new-error": "error",
+    "unicorn/prefer-string-starts-ends-with": "error",
+    "unicorn/prefer-array-flat-map": "error",
+    "unicorn/no-array-for-each": "allow",
+    "unicorn/prefer-string-raw": "allow",
+    "unicorn/filename-case": "allow",
+    "unicorn/prevent-abbreviations": "allow",
+    "unicorn/no-null": "allow",
+    "unicorn/prefer-ternary": "allow",
+    "unicorn/consistent-function-scoping": "allow",
+    "import/no-duplicates": "error",
+    "import/no-self-import": "error",
+    "import/no-cycle": "error",
+    "import/no-mutable-exports": "error",
+    "import/no-default-export": "allow",
+    "promise/no-return-wrap": "error",
+    "promise/param-names": "error",
+    "promise/prefer-await-to-then": "error",
+    "promise/avoid-new": "allow",
+    "promise/prefer-await-to-callbacks": "allow",
+    "oxc/no-async-await": "allow",
+    "oxc/no-optional-chaining": "allow",
+    "no-nested-ternary": "allow",
+    "func-style": "allow",
+    "max-statements": "allow",
+    "sort-keys": "allow",
+    "no-inline-comments": "allow",
+    "no-magic-numbers": "allow",
+    "no-ternary": "allow",
+    "no-undefined": "allow"
+  },
+  "ignorePatterns": ["dist/**", "node_modules/**"]
+}

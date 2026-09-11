@@ -1,0 +1,22 @@
+# Formats and lints staged files before every commit.
+# Installed by `npm install` via the `prepare` script; run `npx lefthook
+# install` by hand if the hook ever goes missing.
+pre-commit:
+  parallel: false
+  commands:
+    format:
+      glob: "*.{ts,js,mjs,cjs,json,jsonc}"
+      exclude:
+        - package-lock.json
+      run: npx oxfmt {staged_files}
+      # Re-stage whatever the formatter rewrote.
+      stage_fixed: true
+    lint:
+      glob: "*.{ts,js,mjs,cjs}"
+      run: npx oxlint --fix {staged_files}
+      stage_fixed: true
+
+pre-push:
+  commands:
+    typecheck:
+      run: npx tsc --noEmit

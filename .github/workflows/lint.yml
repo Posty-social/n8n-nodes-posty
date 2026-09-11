@@ -1,0 +1,42 @@
+name: Lint
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+
+concurrency:
+  group: lint-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  lint:
+    name: Lint and typecheck
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "lts/*"
+          cache: "npm"
+
+      - name: Install dependencies
+        run: "npm ci"
+
+      - name: Run oxlint
+        run: "npm run lint"
+
+      - name: Check formatting
+        run: "npm run format:check"
+
+      - name: Typecheck
+        run: "npm run typecheck"
+
+      # n8n's own eslint pass. A failure here means the node would be
+      # rejected for n8n Cloud verification, so it gates PRs too.
+      - name: Run n8n node lint
+        run: "npm run lint:n8n"

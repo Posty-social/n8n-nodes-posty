@@ -1,55 +1,64 @@
 {
-	"name": "n8n-nodes-posty",
-	"version": "0.1.0",
-	"description": "n8n community node for Posty (posty.social): create, schedule, review and publish social media posts, and manage channels, comments and media",
-	"license": "MIT",
-	"homepage": "https://posty.social",
-	"keywords": [
-		"n8n-community-node-package",
-		"posty",
-		"social-media",
-		"scheduling"
-	],
-	"author": {
-		"name": "Tom Nagle",
-		"email": "tomanagle@gmail.com"
-	},
-	"repository": {
-		"type": "git",
-		"url": "https://github.com/Posty-social/n8n-nodes-posty.git"
-	},
-	"scripts": {
-		"build": "n8n-node build",
-		"build:watch": "tsc --watch",
-		"dev": "n8n-node dev",
-		"lint": "n8n-node lint",
-		"lint:fix": "n8n-node lint --fix",
-		"release": "n8n-node release",
-		"prepublishOnly": "n8n-node prerelease"
-	},
-	"files": [
-		"dist",
-		"!dist/tsconfig.tsbuildinfo",
-		"CHANGELOG.md"
-	],
-	"n8n": {
-		"n8nNodesApiVersion": 1,
-		"strict": true,
-		"credentials": [
-			"dist/credentials/PostyApi.credentials.js"
-		],
-		"nodes": [
-			"dist/nodes/Posty/Posty.node.js"
-		]
-	},
-	"devDependencies": {
-		"@n8n/node-cli": "*",
-		"eslint": "9.32.0",
-		"prettier": "3.6.2",
-		"release-it": "^19.0.4",
-		"typescript": "5.9.2"
-	},
-	"peerDependencies": {
-		"n8n-workflow": "*"
-	}
+  "name": "n8n-nodes-posty",
+  "version": "0.1.0",
+  "description": "n8n community node for Posty (posty.social): create, schedule, review and publish social media posts, and manage channels, comments and media",
+  "keywords": [
+    "n8n-community-node-package",
+    "posty",
+    "scheduling",
+    "social-media"
+  ],
+  "homepage": "https://posty.social",
+  "license": "MIT",
+  "author": {
+    "name": "Tom Nagle",
+    "email": "tomanagle@gmail.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Posty-social/n8n-nodes-posty.git"
+  },
+  "files": [
+    "dist",
+    "!dist/tsconfig.tsbuildinfo",
+    "CHANGELOG.md"
+  ],
+  "scripts": {
+    "build": "n8n-node build",
+    "build:watch": "tsc --watch",
+    "check": "npm run lint && npm run format:check && npm run typecheck && npm run lint:n8n",
+    "dev": "n8n-node dev",
+    "fix": "oxlint --fix && oxfmt .",
+    "format": "oxfmt .",
+    "format:check": "oxfmt --check .",
+    "hooks:install": "lefthook install",
+    "lint": "oxlint",
+    "lint:fix": "oxlint --fix",
+    "lint:n8n": "n8n-node lint",
+    "prepublishOnly": "n8n-node prerelease",
+    "release": "n8n-node release",
+    "typecheck": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "@n8n/node-cli": "*",
+    "eslint": "9.32.0",
+    "lefthook": "2.1.8",
+    "oxfmt": "0.28.0",
+    "oxlint": "1.51.0",
+    "release-it": "^19.0.4",
+    "typescript": "5.9.2"
+  },
+  "peerDependencies": {
+    "n8n-workflow": "*"
+  },
+  "n8n": {
+    "n8nNodesApiVersion": 1,
+    "strict": true,
+    "credentials": [
+      "dist/credentials/PostyApi.credentials.js"
+    ],
+    "nodes": [
+      "dist/nodes/Posty/Posty.node.js"
+    ]
+  }
 }

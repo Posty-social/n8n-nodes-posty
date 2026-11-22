@@ -141,6 +141,7 @@ Every list operation has **Return All**. Leave it off and set **Limit** to cap t
 
 ## Resources
 
+- [Posty MCP setup guides and prompts for AI assistants](https://postymcp.com/)
 - [n8n community nodes documentation](https://docs.n8n.io/integrations/#community-nodes)
 - [Posty](https://posty.social)
 - [Posty API reference](https://docs.posty.social)
